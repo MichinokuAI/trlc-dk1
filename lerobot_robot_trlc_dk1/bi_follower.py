@@ -38,6 +38,10 @@ def map_range(x: float, in_min: float, in_max: float, out_min: float, out_max: f
 class BiDK1FollowerConfig(RobotConfig):
     left_arm_port: str
     right_arm_port: str
+    can_interface: str = "slcan"
+    can_bitrate: int = 1000000
+    can_tty_baudrate: int | None = None
+    can_receive_timeout: float = 0.001
     disable_torque_on_disconnect: bool = False
     joint_velocity_scaling: float = 0.2
     max_gripper_torque: float = 1.0 # Nm (/0.00875m spur gear radius = 114N gripper force)
@@ -59,12 +63,20 @@ class BiDK1Follower(Robot):
         
         left_arm_config = DK1FollowerConfig(
             port=self.config.left_arm_port,
+            can_interface=self.config.can_interface,
+            can_bitrate=self.config.can_bitrate,
+            can_tty_baudrate=self.config.can_tty_baudrate,
+            can_receive_timeout=self.config.can_receive_timeout,
             disable_torque_on_disconnect=self.config.disable_torque_on_disconnect,
             joint_velocity_scaling=self.config.joint_velocity_scaling,
             max_gripper_torque=self.config.max_gripper_torque,
         )
         right_arm_config = DK1FollowerConfig(
             port=self.config.right_arm_port,
+            can_interface=self.config.can_interface,
+            can_bitrate=self.config.can_bitrate,
+            can_tty_baudrate=self.config.can_tty_baudrate,
+            can_receive_timeout=self.config.can_receive_timeout,
             disable_torque_on_disconnect=self.config.disable_torque_on_disconnect,
             joint_velocity_scaling=self.config.joint_velocity_scaling,
             max_gripper_torque=self.config.max_gripper_torque,

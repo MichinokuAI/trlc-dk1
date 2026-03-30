@@ -43,7 +43,7 @@ from DM_CAN import *
 
 ### 安装依赖
 
-该库依赖以下 Python 库：`serial` 和 `numpy`，请使用以下命令安装：
+该库依赖以下 Python 库：`python-can` 和 `numpy`，请使用以下命令安装：
 
 ```bash
 pip install -r requirements.txt
@@ -65,11 +65,15 @@ Motor3 = Motor(DM_Motor_Type.DM4310, 0x03, 0x13)
 * **第二个参数**：SlaveID（电机的CAN ID）
 * **第三个参数**：MasterID（主机ID，建议不为 `0x00`，且不与 SlaveID 冲突）
 
-### 配置串口通信
+### 配置 CANable 通信
 
 ```python
-serial_device = serial.Serial('COM8', 921600, timeout=0.5)
-MotorControl1 = MotorControl(serial_device)
+channel = "COM8"
+MotorControl1 = MotorControl(
+    channel=channel,
+    interface="slcan",
+    bitrate=1000000,
+)
 ```
 
 * * *

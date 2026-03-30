@@ -39,7 +39,7 @@ Ensure that `DM_CAN.py` is in your project folder. Import it as follows:
 ```python
 from DM_CAN import *
 ```
-The library depends on the following Python packages: `serial`, `numpy`. Install them using:
+The library depends on the following Python packages: `python-can`, `numpy`. Install them using:
 
 ```bash
 pip install -r requirements.txt
@@ -61,16 +61,20 @@ Motor3 = Motor(DM_Motor_Type.DM4310, 0x03, 0x13)
 * **Second Parameter**: Slave ID (Motor's CAN ID)
 * **Third Parameter**: Master ID (Host ID; must be unique and not `0x00`)
 
-Set up the serial device (example for Windows):
+Set up the CANable channel (example for Windows):
 
 ```python
-serial_device = serial.Serial('COM8', 921600, timeout=0.5)
+channel = "COM8"
 ```
 
 Initialize the motor control object:
 
 ```python
-MotorControl1 = MotorControl(serial_device)
+MotorControl1 = MotorControl(
+    channel=channel,
+    interface="slcan",
+    bitrate=1000000,
+)
 ```
 
 * * *

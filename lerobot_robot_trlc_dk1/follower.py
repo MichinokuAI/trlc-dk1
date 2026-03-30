@@ -14,7 +14,6 @@
 
 from dataclasses import dataclass, field
 from functools import cached_property
-import serial
 import time
 import logging
 from typing import Any
@@ -38,6 +37,10 @@ def map_range(x: float, in_min: float, in_max: float, out_min: float, out_max: f
 @dataclass
 class DK1FollowerConfig(RobotConfig):
     port: str
+    can_interface: str = "slcan"
+    can_bitrate: int = 1000000
+    can_tty_baudrate: int | None = None
+    can_receive_timeout: float = 0.001
     disable_torque_on_disconnect: bool = False
     joint_velocity_scaling: float = 0.2
     max_gripper_torque: float = 1.0 # Nm (/0.00875m spur gear radius = 114N gripper force)
@@ -79,7 +82,6 @@ class DK1Follower(Robot):
             "gripper": Motor(DM_Motor_Type.DM4310, 0x07, 0x17),
         }
         self.control = None
-        self.serial_device = None
         self.bus_connected = False
 
         self.gripper_open_pos = 0.0
@@ -113,11 +115,13 @@ class DK1Follower(Robot):
         if self.is_connected:
             raise DeviceAlreadyConnectedError(f"{self} already connected")
 
-        self.serial_device = serial.Serial(
-            self.config.port, 921600, timeout=0.5)
-        time.sleep(0.5)
-
-        self.control = MotorControl(self.serial_device)
+        self.control = MotorControl(
+            channel=self.config.port,
+            bitrate=self.config.can_bitrate,
+            interface=self.config.can_interface,
+            tty_baudrate=self.config.can_tty_baudrate,
+            receive_timeout=self.config.can_receive_timeout,
+        )
         self.bus_connected = True
         self.configure()
 
@@ -236,8 +240,7 @@ class DK1Follower(Robot):
         if self.config.disable_torque_on_disconnect:
             for motor in self.motors.values():
                 self.control.disable(motor)
-        else:
-            self.control.serial_.close()
+        self.control.close()
         self.bus_connected = False
 
         for cam in self.cameras.values():
