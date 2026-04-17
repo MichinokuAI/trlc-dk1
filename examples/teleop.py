@@ -22,14 +22,10 @@ freq = 200 # Hz
 print_hz = 10
 print_interval = max(1, freq // print_hz)
 loop_count = 0
-inverted_joints = ("joint_2.pos", "joint_3.pos", "joint_4.pos")
 
 try:
     while True:
         action = leader.get_action()
-        # Reverse control direction for selected joints so leader motion maps correctly to follower.
-        for joint in inverted_joints:
-            action[joint] = -action[joint]
         follower.send_action(action)
 
         for motor in follower.motors.values():
