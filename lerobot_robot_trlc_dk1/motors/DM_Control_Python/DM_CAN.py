@@ -291,7 +291,7 @@ class MotorControl:
                 if CANID in self.motors_map:
                     q_uint = np.uint16((np.uint16(data[1]) << 8) | data[2])
                     dq_uint = np.uint16((np.uint16(data[3]) << 4) | (data[4] >> 4))
-                    tau_uint = np.uint16(((data[4] & 0xF) << 8) | data[5])
+                    tau_uint = np.uint16((np.uint16(data[4] & 0xF) << 8) | np.uint16(data[5]))
                     MotorType_recv = self.motors_map[CANID].MotorType
                     Q_MAX = self.Limit_Param[MotorType_recv][0]
                     DQ_MAX = self.Limit_Param[MotorType_recv][1]
@@ -305,7 +305,7 @@ class MotorControl:
                 if MasterID in self.motors_map:
                     q_uint = np.uint16((np.uint16(data[1]) << 8) | data[2])
                     dq_uint = np.uint16((np.uint16(data[3]) << 4) | (data[4] >> 4))
-                    tau_uint = np.uint16(((data[4] & 0xF) << 8) | data[5])
+                    tau_uint = np.uint16((np.uint16(data[4] & 0xF) << 8) | np.uint16(data[5]))
                     MotorType_recv = self.motors_map[MasterID].MotorType
                     Q_MAX = self.Limit_Param[MotorType_recv][0]
                     DQ_MAX = self.Limit_Param[MotorType_recv][1]

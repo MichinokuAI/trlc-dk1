@@ -2,7 +2,7 @@ from lerobot_robot_trlc_dk1.leader import DK1Leader, DK1LeaderConfig
 import time
 
 leader_config = DK1LeaderConfig(
-    port="/dev/tty.usbmodem5A460819651"
+    port="/dev/cu.usbmodem5A680107081"
 )
 
 leader = DK1Leader(leader_config)

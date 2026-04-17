@@ -5,7 +5,7 @@ import time
 
 
 follower_config = DK1FollowerConfig(
-    port="/dev/ttyACM1",
+    port="/dev/tty.usbmodem208634AD47431",
 )
 follower = DK1Follower(follower_config)
 
