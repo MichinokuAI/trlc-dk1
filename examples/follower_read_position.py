@@ -4,7 +4,7 @@ from lerobot_robot_trlc_dk1.motors.DM_Control_Python.DM_CAN import *
 import time
 
 follower_config = DK1FollowerConfig(
-    port="/dev/ttyACM1",
+    port="/dev/tty.usbmodem208634AD47431",
 )
 follower = DK1Follower(follower_config)
 

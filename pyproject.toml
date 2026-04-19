@@ -8,7 +8,7 @@ version = "0.3.0"
 requires-python = ">=3.12"
 dependencies = [
   "numpy>=2.0.1",
-  "pyserial>=3.5",
+  "python-can>=4.4.2",
   "dynamixel-sdk>=3.7.31",
   "lerobot@https://github.com/huggingface/lerobot.git",
 ]

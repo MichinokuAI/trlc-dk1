@@ -1,2 +1,2 @@
 numpy>=2.0.1
-pyserial>=3.5
+python-can>=4.4.2
