@@ -19,23 +19,11 @@ follower = DK1Follower(follower_config)
 follower.connect()
 
 freq = 200 # Hz
-print_hz = 10
-print_interval = max(1, freq // print_hz)
-loop_count = 0
 
 try:
     while True:
         action = leader.get_action()
         follower.send_action(action)
-
-        for motor in follower.motors.values():
-            follower.control.refresh_motor_status(motor)
-
-        if loop_count % print_interval == 0:
-            follower_pos = {key: float(motor.getPosition()) for key, motor in follower.motors.items()}
-            print(f"Follower position: {follower_pos}")
-
-        loop_count += 1
         time.sleep(1/freq)
 except KeyboardInterrupt:
     print("\nStopping teleop...")
