@@ -170,8 +170,7 @@ class DK1Follower(Robot):
         while True:
             self.control.refresh_motor_status(self.motors["gripper"])
             tau = self.motors["gripper"].getTorque()
-            print(f"Gripper torque: {tau:.2f} Nm")
-            if tau > 1.0:
+            if tau > 1.2:
                 self.control.control_Vel(self.motors["gripper"], 0.0)
                 self.control.disable(self.motors["gripper"])
                 self.control.set_zero_position(self.motors["gripper"])
