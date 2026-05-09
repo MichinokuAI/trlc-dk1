@@ -33,16 +33,23 @@ def main() -> None:
     logger.info("Broadcasting actions on %s", args.bind)
 
     period = 1.0 / args.freq
+    sent = 0
+    last_report = time.perf_counter()
     try:
         while True:
             loop_start = time.perf_counter()
             action = leader.get_action()
             try:
                 sock.send_string(json.dumps(action), flags=zmq.NOBLOCK)
+                sent += 1
             except zmq.Again:
                 pass
-            elapsed = time.perf_counter() - loop_start
-            time.sleep(max(period - elapsed, 0.0))
+            now = time.perf_counter()
+            if now - last_report >= 5.0:
+                logger.info("sent %d msgs in last %.1fs", sent, now - last_report)
+                sent = 0
+                last_report = now
+            time.sleep(max(period - (now - loop_start), 0.0))
     except KeyboardInterrupt:
         logger.info("Stopping leader host...")
     finally:
