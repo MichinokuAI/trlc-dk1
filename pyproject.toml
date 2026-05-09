@@ -10,7 +10,8 @@ dependencies = [
   "numpy>=2.0.1",
   "python-can>=4.4.2",
   "dynamixel-sdk>=3.7.31",
-  "lerobot[hardware,intelrealsense,pyzmq-dep] @ https://github.com/huggingface/lerobot.git",
+  "pyzmq>=26.2.1,<28.0.0",
+  "lerobot[hardware,intelrealsense] @ https://github.com/huggingface/lerobot.git",
 ]
 
 authors = [
