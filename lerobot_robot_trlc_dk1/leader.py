@@ -32,6 +32,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class DK1LeaderConfig(TeleoperatorConfig):
     port: str
+    baudrate: int = 57600
     gripper_open_pos: int = 2280
     gripper_closed_pos: int = 1670
     
@@ -72,6 +73,7 @@ class DK1Leader(Teleoperator):
         if self.is_connected:
             raise DeviceAlreadyConnectedError(f"{self} already connected")
 
+        self.bus.port_handler.baudrate = self.config.baudrate
         self.bus.connect()
         self.configure()
         

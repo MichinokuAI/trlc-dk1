@@ -12,7 +12,6 @@ leader_config = DK1LeaderConfig(
     port="/dev/cu.usbmodem5A680107081"
 )
 leader = DK1Leader(leader_config)
-leader.bus.port_handler.baudrate = 57600
 leader.connect()
 
 follower = DK1Follower(follower_config)
